@@ -27,10 +27,9 @@ app.get('/products', async (req, res) => {
     }
 })
 
-//: significa que es modificable (puede ser un 4 como un 10 como un 75)
 app.get('/products/:pid', async (req, res) => {
     try {
-        const idProducto = req.params.pid //Todo dato que se consulta desde un parametro es un string
+        const idProducto = req.params.pid 
         const prod = await productManager.getProductById(idProducto)
         if (prod)
             res.status(200).send(prod)
