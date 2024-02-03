@@ -6,8 +6,8 @@
   "main": "Main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devNodemon": "nodemon src/Main.js",
-    "devNode": "node --watch src/Main.js"
+    "devNodemon": "nodemon Main.js",
+    "devNode": "node --watch Main.js"
   },
   "keywords": [],
   "author": "",

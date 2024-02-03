@@ -1,3 +1,4 @@
+import express from 'express'
 import { Product } from "./config/Product.js";
 import { ProductManager } from "./config/ProductManager.js";
 
