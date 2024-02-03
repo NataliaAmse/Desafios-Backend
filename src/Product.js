@@ -9,6 +9,6 @@ export class Product {
         this.stock = stock
         this.code = code
         this.thumbnail = []
-        this.id = crypto.randomBytes(12).toString('hex')
+        this.id = crypto.randomBytes(8).toString('hex')
     }
 }
