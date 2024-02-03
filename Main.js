@@ -9,7 +9,7 @@ const productManager = new ProductManager('./data/Products.json')
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.send("Hola, desde mi primer servidor en Express")
+    res.send("Hola!")
 })
 
 app.get('/products', async (req, res) => {
@@ -37,7 +37,7 @@ app.get('/products/:pid', async (req, res) => {
         else
             res.status(404).send("Producto no existe")
     } catch (error) {
-        res.status(500).send(`Error interno del servidor al consultar producto: ${error}`)
+        res.status(500).send(`Error interno del servidor al consultar productos: ${error}`)
     }
 })
 
@@ -46,7 +46,7 @@ app.post('/products', async (req, res) => {
         const product = req.body
         console.log(product)
         const mensaje = await productManager.addProduct(product)
-        if (mensaje == "Producto creado correctamente")
+        if (mensaje == "El producto fue creado correctamente")
             res.status(200).send(mensaje)
         else
             res.status(400).send(mensaje)
@@ -60,7 +60,7 @@ app.put('/products/:pid', async (req, res) => {
         const idProducto = req.params.pid
         const updateProduct = req.body
         const mensaje = await productManager.updateProduct(idProducto, updateProduct)
-        if (mensaje == "Producto actualizado correctamente")
+        if (mensaje == "El producto fue actualizado correctamente")
             res.status(200).send(mensaje)
         else
             res.status(404).send(mensaje)
@@ -73,7 +73,7 @@ app.delete('/products/:pid', async (req, res) => {
     try {
         const idProducto = req.params.pid
         const mensaje = await productManager.deleteProduct(idProducto)
-        if (mensaje == "Producto eliminado correctamente")
+        if (mensaje == "El producto fue correctamente eliminado")
             res.status(200).send(mensaje)
         else
             res.status(404).send(mensaje)
