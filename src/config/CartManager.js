@@ -16,7 +16,7 @@ export class CartManager {
         const indice = cart.findIndex(product => product.id == idProducto)
 
         if (indice != -1) {
-            cart[indice].quantity += quantityParam //5 + 5 = 10, asigno 10 a quantity
+            cart[indice].quantity += quantityParam 
         } else {
             const prod = { id: idProducto, quantity: quantityParam }
             cart.push(prod)
