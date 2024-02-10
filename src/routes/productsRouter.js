@@ -4,7 +4,6 @@ import { ProductManager } from '../config/ProductManager.js'
 const productManager = new ProductManager('./src/data/products.json')
 const productsRouter = Router()
 
-
 productsRouter.get('/', async (req, res) => {
     try {
         const { limit } = req.query
@@ -20,9 +19,10 @@ productsRouter.get('/', async (req, res) => {
     }
 })
 
+//: significa que es modificable (puede ser un 4 como un 10 como un 75)
 productsRouter.get('/:pid', async (req, res) => {
     try {
-        const idProducto = req.params.pid 
+        const idProducto = req.params.pid //Todo dato que se consulta desde un parametro es un string
         const prod = await productManager.getProductById(idProducto)
         if (prod)
             res.status(200).send(prod)

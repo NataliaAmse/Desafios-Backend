@@ -16,13 +16,13 @@ export class CartManager {
         const indice = cart.findIndex(product => product.id == idProducto)
 
         if (indice != -1) {
-            cart[indice].quantity += quantityParam
+            cart[indice].quantity += quantityParam //5 + 5 = 10, asigno 10 a quantity
         } else {
             const prod = { id: idProducto, quantity: quantityParam }
             cart.push(prod)
         }
         await fs.writeFile(this.products, JSON.stringify(cart))
-        return "El producto fue cargado correctamente"
+        return "Producto cargado correctamente"
     }
 
 }
