@@ -1,6 +1,5 @@
 import crypto from 'crypto'
 
-
 export class Product {
     constructor(title, description, price, stock, code) {
         this.title = title

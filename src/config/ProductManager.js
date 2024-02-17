@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs'
 import crypto from 'crypto'
-
 export class ProductManager {
     constructor(path) {
         this.path = path 
