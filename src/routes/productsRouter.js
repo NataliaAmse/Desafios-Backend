@@ -25,7 +25,7 @@ productsRouter.get('/', async (req, res) => {
     }
 })
 
-//: significa que es modificable (puede ser un 4 como un 10 como un 75)
+//: significa que es modificable 
 productsRouter.get('/:pid', async (req, res) => {
     try {
         const idProducto = req.params.pid //Todo dato que se consulta desde un parametro es un string
