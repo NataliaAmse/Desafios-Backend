@@ -3,11 +3,11 @@
 {{#if mostrarProductos}}
 {{#each productos}}
 <div>
-    <p>Título: {{this.title}}</p>
+    <p>Titulo: {{this.title}}</p>
     <p>Descripcion: {{this.description}}</p>
     <p>Precio: {{this.price}}</p>
     <p>Stock: {{this.stock}}</p>
-    <img src="{{this.img}}" alt="Imagen de {{this.title}}">
+    <img src="../../public/img/{{this.img}}" alt="Imagen de {{this.title}}">
 </div>
 {{/each}}
 {{else}}
