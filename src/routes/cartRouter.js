@@ -15,7 +15,7 @@ cartRouter.post('/', async (req, res) => {
 cartRouter.get('/:cid', async (req, res) => {
     try {
         const cartId = req.params.cid
-        const cart = await cartModel.findById(cartId)
+        const cart = await cartModel.findOne({ _id: cartId })
         res.status(200).send(cart)
     } catch (error) {
         res.status(500).send(`Error interno del servidor al consultar carrito: ${error}`)
@@ -33,7 +33,7 @@ cartRouter.post('/:cid/:pid', async (req, res) => {
 
         if (indice != -1) {
             //Consultar Stock para ver cantidades
-            cart.products[indice].quantity = quantity 
+            cart.products[indice].quantity = quantity //5 + 5 = 10, asigno 10 a quantity
         } else {
             cart.products.push({ id_prod: productId, quantity: quantity })
         }

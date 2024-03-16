@@ -1,14 +1,12 @@
 import express from 'express'
-import cartRouter from './routes/cartRouter.js'
-import productsRouter from './routes/productsRouter.js'
-import userRouter from './routes/userRouter.js'
-import chatRouter from './routes/chatRouter.js'
-import upload from './config/multer.js'
 import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser'
 import messageModel from './models/messages.js'
+import indexRouter from './routes/indexRouter.js'
 import { Server } from 'socket.io'
 import { engine } from 'express-handlebars'
 import { __dirname } from './path.js'
+import session from 'express-session'
 
 //Configuraciones o declaraciones
 const app = express()
@@ -28,9 +26,57 @@ mongoose.connect("mongodb+srv://nataliaamse:Berlin2024@cluster0.ayfaxwz.mongodb.
 
 //Middlewares
 app.use(express.json())
+app.use(session({
+    secret: "coderSecret",
+    resave: true,
+    saveUninitialized: true
+}))
+app.use(cookieParser("claveSecreta"))
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/views')
+
+app.use('/', indexRouter)
+
+//Routes Cookies
+app.get('/setCookie', (req, res) => {
+    res.cookie('CookieCookie', 'Esto es una cookie :)', { maxAge: 3000000, signed: true }).send("Cookie creada")
+})
+
+app.get('/getCookie', (req, res) => {
+    res.send(req.signedCookies)
+})
+
+app.get('/deleteCookie', (req, res) => {
+    res.clearCookie('CookieCookie').send("Cookie eliminada")
+    //res.cookie('CookieCokie', '', { expires: new Date(0) })
+})
+
+//Session Routes
+
+app.get('/session', (req, res) => {
+    console.log(req.session)
+    if (req.session.counter) {
+        req.session.counter++
+        res.send(`Sos el usuario N° ${req.session.counter} en ingresar a la pagina`)
+    } else {
+        req.session.counter = 1
+        res.send("Sos el primer usuario que ingresa a la pagina")
+    }
+})
+
+app.get('/login', (req, res) => {
+    const { email, password } = req.body
+
+    if (email == "admin@admin.com" && password == "1234") {
+        req.session.email = email
+        req.session.password = password
+
+
+    }
+    console.log(req.session)
+    res.send("Login")
+})
 
 io.on('connection', (socket) => {
     console.log("Conexion con Socket.io")
@@ -46,20 +92,4 @@ io.on('connection', (socket) => {
 
     })
 
-})
-
-//Routes
-app.use('/public', express.static(__dirname + '/public'))
-app.use('/api/products', productsRouter, express.static(__dirname + '/public'))
-app.use('/api/cart', cartRouter)
-app.use('/api/chat', chatRouter, express.static(__dirname + '/public'))
-app.use('/api/users', userRouter)
-
-app.post('/upload', upload.single('product'), (req, res) => {
-    try {
-        console.log(req.file)
-        res.status(200).send("Imagen cargada correctamente")
-    } catch (e) {
-        res.status(500).send("Error al cargar imagen")
-    }
 })
