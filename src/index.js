@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import messageModel from './models/messages.js'
 import indexRouter from './routes/indexRouter.js'
 import initializePassport from './config/passport/passport.js'
+import varenv from './dotenv.js'
 import { Server } from 'socket.io'
 import { engine } from 'express-handlebars'
 import { __dirname } from './path.js'
@@ -14,7 +15,6 @@ import { __dirname } from './path.js'
 //Configuraciones o declaraciones
 const app = express()
 const PORT = 8000
-
 
 //Server
 const server = app.listen(PORT, () => {
@@ -24,23 +24,23 @@ const server = app.listen(PORT, () => {
 const io = new Server(server)
 
 //Connection DB
-mongoose.connect("mongodb+srv://nataliaamse:Berlin2024@cluster0.ayfaxwz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-.then(() => console.log("DB is connected"))
-.catch(e => console.log(e))
+mongoose.connect(varenv.mongo_url)
+    .then(() => console.log("DB is connected"))
+    .catch(e => console.log(e))
 
 //Middlewares
 app.use(express.json())
 
 app.use(session({
-    secret: "coderSecret",
+    secret: varenv.session_secret,
     resave: true,
     store: MongoStore.create({
-    mongoUrl: "mongodb+srv://nataliaamse:Berlin2024@cluster0.ayfaxwz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-    ttl: 60 * 60
-}),
-saveUninitialized: true
+        mongoUrl: varenv.mongo_url,
+        ttl: 60 * 60
+    }),
+    saveUninitialized: true
 }))
-app.use(cookieParser("claveSecreta"))
+app.use(cookieParser(varenv.cookies_secret))
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/views')
@@ -66,7 +66,6 @@ app.get('/deleteCookie', (req, res) => {
     res.clearCookie('CookieCookie').send("Cookie eliminada")
     //res.cookie('CookieCokie', '', { expires: new Date(0) })
 })
-
 
 //Session Routes
 
