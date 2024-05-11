@@ -22,21 +22,26 @@ export const createCart = async (req, res) => {
 
 export const insertProductCart = async (req, res) => {
     try {
-        const cartId = req.params.cid
-        const productId = req.params.pid
-        const { quantity } = req.body
-        const cart = await cartModel.findById(cartId)
+        if (req.user.rol == "User") {
+            const cartId = req.params.cid
+            const productId = req.params.pid
+            const { quantity } = req.body
+            const cart = await cartModel.findById(cartId)
 
-        const indice = cart.products.findIndex(product => product.id_prod == productId)
+            const indice = cart.products.findIndex(product => product.id_prod == productId)
 
-        if (indice != -1) {
-            //Consultar Stock para ver cantidades
-            cart.products[indice].quantity = quantity //5 + 5 = 10, asigno 10 a quantity
+            if (indice != -1) {
+                //Consultar Stock para ver cantidades
+                cart.products[indice].quantity = quantity //5 + 5 = 10, asigno 10 a quantity
+            } else {
+                cart.products.push({ id_prod: productId, quantity: quantity })
+            }
+            const mensaje = await cartModel.findByIdAndUpdate(cartId, cart)
+            res.status(200).send(mensaje)
         } else {
-            cart.products.push({ id_prod: productId, quantity: quantity })
+            res.status(403).send("Usuario no autorizado")
         }
-        const mensaje = await cartModel.findByIdAndUpdate(cartId, cart)
-        res.status(200).send(mensaje)
+
     } catch (error) {
         res.status(500).send(`Error interno del servidor al crear producto: ${error}`)
     }

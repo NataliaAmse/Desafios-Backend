@@ -6,12 +6,11 @@ const cookieExtractor = req => {
     //{} no hay cookies != esta cookie no existe
     //Si existen cookies, asigno mi cookie en especifico
     const token = req.cookies ? req.cookies.jwtCookie : {}
-    console.log(token)
     return token
 }
 
 const jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     //jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() esperar el token de JWT desde la peticion
     //jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]) consultando desde las cookies
     secretOrKey: ""
@@ -21,9 +20,7 @@ const jwtOptions = {
 
 export const strategyJWT = new JwtStrategy(jwtOptions, async (payload, done) => {
     try {
-        console.log(payload)
         const user = await userModel.findById(payload.user._id)
-        console.log(user)
         if (!user) {
             return done(null, false)
         }

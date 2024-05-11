@@ -1,6 +1,7 @@
 import productModel from "../models/product.js";
 
 export const getProducts = async (req, res) => {
+    console.log(req)
     try {
         const { limit, page, filter, ord } = req.query;
         let metFilter;
@@ -43,10 +44,17 @@ export const getProduct = async (req, res) => {
 }
 
 export const createProduct = async (req, res) => {
+    console.log(req.user)
+    console.log(req.user.rol)
     try {
-        const product = req.body
-        const mensaje = await productModel.create(product)
-        res.status(201).send(mensaje)
+        if (req.user.rol == "Admin") {
+            const product = req.body
+            const mensaje = await productModel.create(product)
+            res.status(201).send(mensaje)
+        } else {
+            res.status(403).send("Usuario no autorizado")
+        }
+
 
     } catch (error) {
         res.status(500).send(`Error interno del servidor al crear producto: ${error}`)
@@ -55,10 +63,15 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const idProducto = req.params.pid
-        const updateProduct = req.body
-        const prod = await productModel.findByIdAndUpdate(idProducto, updateProduct)
-        res.status(200).send(prod)
+        if (req.user.rol == "Admin") {
+            const idProducto = req.params.pid
+            const updateProduct = req.body
+            const prod = await productModel.findByIdAndUpdate(idProducto, updateProduct)
+            res.status(200).send(prod)
+        } else {
+            res.status(403).send("Usuario no autorizado")
+        }
+
 
     } catch (error) {
         res.status(500).send(`Error interno del servidor al actualizar producto: ${error}`)
@@ -68,9 +81,15 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
     try {
-        const idProducto = req.params.pid
-        const mensaje = await productModel.findByIdAndDelete(idProducto)
-        res.status(200).send(mensaje)
+        console.log(req.user.rol)
+        if (req.user.rol == "Admin") {
+            const idProducto = req.params.pid
+            const mensaje = await productModel.findByIdAndDelete(idProducto)
+            res.status(200).send(mensaje)
+        } else {
+            res.status(403).send("Usuario no autorizado")
+        }
+
     } catch (error) {
         res.status(500).send(`Error interno del servidor al eliminar producto: ${error}`)
     }

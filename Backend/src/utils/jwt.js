@@ -12,12 +12,13 @@ export const generateToken = (user) => {
 }
 
 console.log(generateToken({
-    "_id": "65fb7dbb4c863f6027e6da4b",
-    "first_name": "Maria",
-    "last_name": "Martinez",
-    "password": "$2b$12$tdojC3W4n5vLWcqV0qJaEuIwAyFZdmAMWjmZwvvxLzaUwm/5idTNG",
-    "age": 30,
-    "email": "adminCoder@coder.com",
-    "rol": "User",
+    "_id": "661739a0111773eba9eae765",
+    "first_name": "Francis",
+    "last_name": "Fernandez",
+    "password": "$2b$12$hN8/LhUsPQ8qZ7MmiJOXdeIsm.CzNKVEdhd48.p6dd3GFrWqdibty",
+    "age": 28,
+    "email": "francis@francis.com",
+    "rol": "Admin",
+    "cart_id": "661739a0111773eba9eae766",
     "__v": 0
 }))
