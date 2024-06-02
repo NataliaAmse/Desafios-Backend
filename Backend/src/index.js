@@ -41,6 +41,7 @@ app.use(session({
     }),
     saveUninitialized: true
 }))
+
 app.use(cookieParser(varenv.cookies_secret))
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
