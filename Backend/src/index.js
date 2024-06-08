@@ -4,6 +4,8 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import cookieParser from 'cookie-parser'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
 import messageModel from './models/messages.js'
 import indexRouter from './routes/indexRouter.js'
 import initializePassport from './config/passport/passport.js'
@@ -16,6 +18,18 @@ import { __dirname } from './path.js'
 //Configuraciones o declaraciones
 const app = express()
 const PORT = 8000
+
+const swaggerOptions = {
+    definition: {
+        openaoi: '3.1.0',
+        info: {
+            title: 'Documentación de mi aplicación',
+            description: 'Descripción de documentación'
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+const specs = swaggerJSDoc(swaggerOptions)
 
 //Server
 const server = app.listen(PORT, () => {
