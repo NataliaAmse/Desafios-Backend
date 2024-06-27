@@ -1,4 +1,4 @@
-import upload from '../config/multer.js'
+
 
 export const insertImg = (req, res) => {
     try {
