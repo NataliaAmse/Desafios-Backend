@@ -7,5 +7,4 @@ userRouter.get('/', getUsers)
 
 userRouter.post ('/:uid/documents', sendDocuments)
 
-
 export default userRouter

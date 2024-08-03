@@ -31,7 +31,7 @@ export const getProducts = async (req, res) => {
 
 export const getProduct = async (req, res) => {
     try {
-        const idProducto = req.params.pid //Todo dato que se consulta desde un parametro es un string
+        const idProducto = req.params.pid 
         const prod = await productModel.findById(idProducto)
         if (prod)
             res.status(200).send(prod)

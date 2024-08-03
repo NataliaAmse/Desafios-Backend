@@ -26,7 +26,7 @@ describe('Test CRUD de usuarios en la ruta /api/users', function () {
 
     it('Obtener un usuario dado su id mediante el metodo GET', async () => {
         const user = await userModel.findById('65fb7dbb4c863f6027e6da4b')
-        //assert.strictEqual(typeof user, 'object')
+        
         assert.ok(user._id)
     })
 

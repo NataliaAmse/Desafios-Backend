@@ -36,7 +36,7 @@ export const createTicket = async (req, res) => {
                 }
             })
             if (prodSinStock.length == 0) {
-                //const totalPrice = cart.products.reduce((a, b) => (a.id_prod.price * a.quantity) + (b.id_prod.price * b.quantity), 0)
+             
                 console.log(cart.products)
                 const aux = [...cart.products]
                 const newTicket = await ticketModel.create({
@@ -47,9 +47,7 @@ export const createTicket = async (req, res) => {
                 })
                 //Descontar stock de cada uno de los productos
                 cart.products.forEach(async (prod) => {
-                    /*await productModel.findByIdAndUpdate(prod.id_prod, {
-                        stock: prod.quantity
-                    })*/
+                    
 
                 })
                 await cartModel.findByIdAndUpdate(cartId, {
@@ -59,9 +57,9 @@ export const createTicket = async (req, res) => {
                 //Vaciar carrito
                 res.status(200).send(newTicket)
             } else {
-                console.log(prodSinStock) //[id1, id2, id3]
+                console.log(prodSinStock) 
                 prodSinStock.forEach((prodId) => {
-                    //[{id_prod, quantity, {}...]
+                 
                     cart.products = cart.products.filter(pro => pro.id_prod !== prodId)
                 })
                 await cartModel.findByIdAndUpdate(cartId, {
@@ -94,8 +92,8 @@ export const insertProductCart = async (req, res) => {
             const indice = cart.products.findIndex(product => product.id_prod == productId)
 
             if (indice != -1) {
-                //Consultar Stock para ver cantidades
-                cart.products[indice].quantity = quantity //5 + 5 = 10, asigno 10 a quantity
+                //Consultar el stock para ver cantidades
+                cart.products[indice].quantity = quantity 
             } else {
                 cart.products.push({ id_prod: productId, quantity: quantity })
             }

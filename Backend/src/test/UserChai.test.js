@@ -20,9 +20,7 @@ describe('Test CRUD de usuarios en la ruta /api/users', function () {
     it('Obtener todos los usuarios mediante el metodo GET', async () => {
         const users = await userModel.find()
 
-        //expect(users).equal([])
-        //expect(Array.isArray(users)).to.be.ok //Si es verdadero o no
-        //expect(users).not.to.be.deep.equal([]) //Que el interior del array no sea igual a array vacio
+        
         expect(users).to.have.lengthOf(0)
     })
 })
